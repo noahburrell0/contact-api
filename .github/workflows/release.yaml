@@ -1,7 +1,10 @@
 name: Create Development Build
 on: 
-  tags:
+  push:
+    tags:
+      - v**
   workflow_dispatch:
+  
 jobs:
   build-publish-image:
     name: Build and Publish Image
