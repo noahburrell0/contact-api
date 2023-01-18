@@ -22,7 +22,6 @@ app = Flask(__name__)
 limiter = Limiter(
     get_remote_address,
     app=app,
-    default_limits=["2 per hour"],
 )
 
 # Define email regex for address validation
@@ -30,6 +29,7 @@ emailRegex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 
 # Define the contact endpoint, only accept POST requests
 @app.route("/contact", methods=['POST'])
+@limiter.limit("2 per hour", key_func = lambda : request.headers['X-Real-IP'])
 def contact():
 
     # Get form data and sanatize
@@ -44,6 +44,7 @@ def contact():
     
     print(replyTo)
     print(body)
+    print(request.headers['X-Real-IP'])
 
     # Prepare Email
     msg = EmailMessage()
