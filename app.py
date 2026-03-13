@@ -33,8 +33,8 @@ emailRegex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
 def contact():
 
     # Get form data and sanatize
-    replyTo = escape(request.form['reply_to'])
-    body = escape(request.form['body'])
+    replyTo = escape(request.form['email'])
+    message = escape(request.form['message'])
     subject = escape(request.form['subject'])
     name = escape(request.form['name'])
 
@@ -43,12 +43,12 @@ def contact():
         return '', 401
     
     print(replyTo)
-    print(body)
+    print(message)
     print(request.headers['X-Real-IP'])
 
     # Prepare Email
     msg = EmailMessage()
-    msg.set_content(body)
+    msg.set_content(message)
     msg['Subject'] = os.getenv('SUBJECT_PREAMBLE')+' '+subject
     msg['Reply-To'] = replyTo
     msg['From'] = formataddr((name, os.getenv('FROM_ADDRESS')))
