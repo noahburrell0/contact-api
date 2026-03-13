@@ -7,9 +7,10 @@ TO_ADDRESS (str)
 SMTP_SERVER (str)
 """
 
-from flask import Flask, request, escape
+from flask import Flask, request
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from markupsafe import escape
 import re
 import smtplib
 from email.message import EmailMessage
